@@ -1,5 +1,5 @@
 declare module "discord.js" {
-    export interface Client {
+    interface Client {
         commands: Collection<unknown, any>
     }
 }
