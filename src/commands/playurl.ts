@@ -1,14 +1,16 @@
+import { Message } from "discord.js";
+
 module.exports = {
   name: "playurl",
   description: "play a song using a video URL from a Youtube video.",
 
-  async execute(message, args) {
+  async execute(message: Message, args: string[]) {
     const ytdl = require("ytdl-core");
     const yts = require("yt-search");
     console.log(args);
     let videourl = args[0];
 
-    if (!message.member.voice.channel) {
+    if (!message.member!.voice.channel) {
       //when you arent in a vc the code will return
       message.channel.send("You must be in a voice channel.");
       return;
@@ -38,8 +40,8 @@ module.exports = {
       url: songInfo.videoDetails.video_url,
     };
 
-    const connection = await message.member.voice.channel.join();
-    connection.voice.setSelfDeaf(true);
+    const connection = await message.member!.voice.channel.join();
+    connection.voice!.setSelfDeaf(true);
     const ytdispatcher = connection.play(ytdl(videourl));
 
     ytdispatcher.on("start", () => {
@@ -74,7 +76,7 @@ module.exports = {
 
     ytdispatcher.on("finish", () => {
       message.channel.send(`The song has been ended!`);
-      message.guild.me.voice.channel.leave();
+      message.guild!.me!.voice.channel!.leave();
       ytdispatcher.on("error", console.error);
     });
   },

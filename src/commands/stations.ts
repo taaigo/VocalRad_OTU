@@ -1,17 +1,20 @@
+import { Message } from "discord.js";
+
 module.exports = {
   name: "stations",
   description: "Shows a list with all avalible radio stations.",
 
-  execute(message, args) {
-    let prefix = process.env.prefix;
-    let stationtitles = require("../radiostations.json").titles;
-    let stationnames = require("../radiostations.json").names;
+  execute(message: Message, args: string[]) {
+    let prefix = process.env.prefix as string;
+    const radstats: any = require("../radiostations.json");
+    let stationtitles = radstats.titles;
+    let stationnames = radstats.names;
 
     message.channel.send({
       embed: {
         author: {
           //icon_url: client.user.displayAvatarURL(),
-          name: message.client.user.username + "'s Available stations",
+          name: message.client.user!.username + "'s Available stations",
         },
         color: "ffffff",
         description: "Listed radio stations",

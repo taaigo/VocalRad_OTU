@@ -1,12 +1,18 @@
+import { Message } from "discord.js";
+
 module.exports = {
     name: "play",
     description: "Allows you to play a song using it's name.",
 
-    async execute(message, args) {
-        let yts = require('yt-search');
+    async execute(message: Message, args: string[]) {
         let ytdl = require('ytdl-core');
+        let yts = require('yt-search');
+        let videoArs;
+        let video: any;
+        let searchUrl;
+        let searchTitle: any;
 
-        if (!message.member.voice.channel) { //when you arent in a vc the code will return
+        if (!message.member!.voice.channel) { //when you arent in a vc the code will return
             message.channel.send('You must be in a voice channel.');
             return;
           } else if (!args[0]) {
@@ -29,6 +35,7 @@ module.exports = {
           video = videoArs.all;
           searchUrl = video[0].url;
           searchTitle = video[0].title;
+
         } catch(err) {
           console.log(err);
           message.channel.send('Error desu');
@@ -44,8 +51,8 @@ module.exports = {
             ago: ${video[0].ago}
             `)
 
-          const connection = await message.member.voice.channel.join();
-          connection.voice.setSelfDeaf(true);
+          const connection = await message.member!.voice.channel.join();
+          connection.voice!.setSelfDeaf(true);
           const searchdispatcher = connection.play(ytdl(searchUrl));
 
           searchdispatcher.on('start', () => {
@@ -82,7 +89,7 @@ module.exports = {
 
           searchdispatcher.on('finish', () => {
             message.channel.send('The song has been ended!');
-            message.guild.me.voice.channel.leave();
+            message.guild!.me!.voice.channel!.leave();
               searchdispatcher.on('error', console.error);
           });
     }

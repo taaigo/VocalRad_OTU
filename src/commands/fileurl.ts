@@ -1,12 +1,14 @@
+import { Message } from "discord.js";
+
 module.exports = {
     name: "fileurl",
     description: "Allows you to use a URL of an file instead,\nthis includes most formats that ffmpeg supports including video such as mp4.",
 
-    async execute(message, args) {
+    async execute(message: Message, args: string[]) {
 
         let fileUrl = args[0];
   
-        if (!message.member.voice.channel) { //when you arent in a vc the code will return
+        if (!message.member!.voice.channel) { //when you arent in a vc the code will return
           message.channel.send('You must be in a voice channel.');
           return;
         } else
@@ -26,8 +28,8 @@ module.exports = {
             return;
         }
 
-        const connection = await message.member.voice.channel.join();
-        connection.voice.setSelfDeaf(true);
+        const connection = await message.member!.voice.channel.join();
+        connection.voice!.setSelfDeaf(true);
         const filedispatcher = connection.play(fileUrl);
 
         filedispatcher.on('start', () => {
@@ -37,7 +39,7 @@ module.exports = {
 
         filedispatcher.on('finish', () => {
           message.channel.send('The song has been ended!');
-          message.guild.me.voice.channel.leave();
+          message.guild!.me!.voice.channel!.leave();
             filedispatcher.on('error', console.error);
         });
     },

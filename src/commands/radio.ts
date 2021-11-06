@@ -1,17 +1,21 @@
+import { Message } from "discord.js";
+
 module.exports = {
   name: "radio",
   description:
     "Let's you play radio stations.\nSee the `stations` command for avalible stations.",
 
-  async execute(message, args) {
+  async execute(message: Message, args: string[]) {
     let argsString = args.join(" ").toLowerCase();
+    const radstats = require("../radiostations.json");
+    
+    let stationnames = radstats.names;
+    let stationurls = radstats.urls;
+    let stationtitles = radstats.titles;
 
-    let stationnames = require("../radiostations.json").names;
-    let stationurls = require("../radiostations.json").urls;
-    let stationtitles = require("../radiostations.json").titles;
     let selstation;
 
-    if (!message.member.voice.channel) {
+    if (!message.member!.voice.channel) {
       //when you arent in a vc the code will return
       message.channel.send("You must be in a voice channel.");
       return;
@@ -19,10 +23,10 @@ module.exports = {
 
     console.log("attempted");
 
-    if (stationtitles.find(stationtitle => stationtitle.toLowerCase() == argsString)) {
-      selstation = stationtitles.find(stationtitle => stationtitle.toLowerCase() == argsString);
-    } else if (stationnames.find(stationtitle => stationtitle.toLowerCase() == argsString)) {
-      selstation = stationnames.find(stationtitle => stationtitle.toLowerCase() == argsString);
+    if (stationtitles.find((stationtitle: string) => stationtitle.toLowerCase() == argsString)) {
+      selstation = stationtitles.find((stationtitle: string) => stationtitle.toLowerCase() == argsString);
+    } else if (stationnames.find((stationtitle: string) => stationtitle.toLowerCase() == argsString)) {
+      selstation = stationnames.find((stationtitle: string) => stationtitle.toLowerCase() == argsString);
     }
     
     if (!selstation) {
@@ -34,8 +38,8 @@ module.exports = {
 
       if (radioindex == -1) return message.channel.send('error desu');
 
-      const connection = await message.member.voice.channel.join(); // makes the bot join the vc
-      connection.voice.setSelfDeaf(true);
+      const connection = await message.member!.voice.channel.join(); // makes the bot join the vc
+      connection.voice!.setSelfDeaf(true);
 
       const dispatcher = connection.play(choiceUrl); // plays the radiostation
 

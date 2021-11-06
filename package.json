@@ -7,10 +7,13 @@
     "npm": "7.x"
   },
   "scripts": {
+    "clean": "rimraf dist/",
+    "copy": "copyfiles -u 1 src/radiostations.json src/Procfile src/.env dist/",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "tsc && node dist/index.js"
+    "start": "npm run clean && tsc && npm run copy && cd dist && node index.js"
   },
-  "author": "maru-san and taigo-san",
+  "author": "Maru (https://github.com/LosWheatleynDew)",
+  "contributors": ["Taigo (https://github.com/taigochan)", "Marie <marie@kaifa.ch> (https://marie.omg.lol)"],
   "license": "ISC",
   "dependencies": {
     "@discordjs/opus": "^0.5.3",
@@ -27,6 +30,8 @@
   "description": "",
   "devDependencies": {
     "@types/node": "^16.11.6",
+    "copyfiles": "^2.4.1",
+    "rimraf": "^3.0.2",
     "typescript": "^4.4.4"
   }
 }
