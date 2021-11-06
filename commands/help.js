@@ -3,7 +3,7 @@ module.exports = {
   description: "I don't know why i bother adding this but it shows this menu",
 
   execute(Discord, message, args) {
-    let prefix = require('../config.json').prefix;
+    let prefix = process.env.token;
 
     message.channel.send({
       embed: {
