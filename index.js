@@ -37,7 +37,7 @@ client.on("message", async (message) => {
   if (!client.commands.has(cmd)) return;
 
   try {
-    client.commands.get(cmd).execute(Discord, message, args);
+    client.commands.get(cmd).execute(message, args);
   } catch (error) {
     console.error(error);
     message.reply("error desu");

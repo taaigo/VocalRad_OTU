@@ -2,7 +2,7 @@ module.exports = {
   name: "playurl",
   description: "play a song using a video URL from a Youtube video.",
 
-  async execute(Discord, message, args) {
+  async execute(message, args) {
     const ytdl = require("ytdl-core");
     const yts = require("yt-search");
     console.log(args);

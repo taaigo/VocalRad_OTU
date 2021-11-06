@@ -2,7 +2,7 @@ module.exports = {
   name: "stop",
   description: "Stops the song that is playing and makes the bot leave the voice channel.",
   
-  execute(Discord, message, args) {
+  execute(message, args) {
     if (!message.member.voice.channel) {
       message.channel.send("You have to be in a vc to stop the music.");
       return;

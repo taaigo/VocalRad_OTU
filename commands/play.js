@@ -2,7 +2,7 @@ module.exports = {
     name: "play",
     description: "Allows you to play a song using it's name.",
 
-    async execute(Discord, message, args) {
+    async execute(message, args) {
         let yts = require('yt-search');
         let ytdl = require('ytdl-core');
 

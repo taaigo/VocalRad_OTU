@@ -2,7 +2,7 @@ module.exports = {
     name: "fileurl",
     description: "Allows you to use a URL of an file instead,\nthis includes most formats that ffmpeg supports including video such as mp4.",
 
-    async execute(Discord, message, args) {
+    async execute(message, args) {
 
         let fileUrl = args[0];
   
