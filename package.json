@@ -3,7 +3,7 @@
   "version": "0.2.0",
   "main": "index.js",
   "engines": {
-    "node": "14.x",
+    "node": "16.x",
     "npm": "7.x"
   },
   "scripts": {
@@ -17,7 +17,7 @@
   "license": "ISC",
   "dependencies": {
     "@discordjs/opus": "^0.5.3",
-    "discord.js": "^12.5.1",
+    "discord.js": "^13.3.1",
     "dotenv": "^10.0.0",
     "opusscript": "^0.0.8",
     "yt-search": "^2.10.1",
