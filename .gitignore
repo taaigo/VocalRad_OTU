@@ -1,4 +1,5 @@
-.env
+src/.env
 node_modules
-Procfile
+src/Procfile
 package-lock.json
+dist
