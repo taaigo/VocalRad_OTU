@@ -2,7 +2,7 @@ module.exports = {
   name: "help",
   description: "I don't know why i bother adding this but it shows this menu",
 
-  execute(Discord, message, args) {
+  execute(message, args) {
     let prefix = process.env.prefix;
 
     message.channel.send({
