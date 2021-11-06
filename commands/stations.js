@@ -2,8 +2,8 @@ module.exports = {
   name: "stations",
   description: "Shows a list with all avalible radio stations.",
 
-  execute(Discord, message, args) {
-    let prefix = require("../config.json").prefix;
+  execute(message, args) {
+    let prefix = process.env.prefix;
     let stationtitles = require("../radiostations.json").titles;
 
     message.channel.send({
