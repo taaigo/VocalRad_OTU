@@ -3,7 +3,7 @@ module.exports = {
   description:
     "Let's you play radio stations.\nSee the `stations` command for avalible stations.",
 
-  async execute(Discord, message, args) {
+  async execute(message, args) {
     const radstats = require("../radiostations.json");
     let argsString = args.join(" ").toLowerCase();
 
