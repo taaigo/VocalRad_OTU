@@ -1,11 +1,12 @@
-import { Message } from "discord.js";
+import { joinVoiceChannel, createAudioPlayer, NoSubscriberBehavior, createAudioResource, StreamType, AudioPlayerStatus } from "@discordjs/voice";
+import { Message, MessagePayload } from "../../types/discord.js";
 
 module.exports = {
   name: "playurl",
   description: "play a song using a video URL from a Youtube video.",
 
   async execute(message: Message, args: string[]) {
-    const ytdl = require("ytdl-core");
+    const ytdl = require("ytdl-core-discord");
     const yts = require("yt-search");
     console.log(args);
     let videourl = args[0];
@@ -40,15 +41,34 @@ module.exports = {
       url: songInfo.videoDetails.video_url,
     };
 
-    const connection = await message.member!.voice.channel.join();
-    connection.voice!.setSelfDeaf(true);
-    const ytdispatcher = connection.play(ytdl(videourl));
+    const connection = joinVoiceChannel({
+      channelId: message.member!.voice.channel.id,
+      guildId: message.member!.voice.channel.guild.id,
+      adapterCreator: message.member!.voice.channel.guild.voiceAdapterCreator,
+    });
 
-    ytdispatcher.on("start", () => {
+    const player = createAudioPlayer({
+      behaviors: {
+          noSubscriber: NoSubscriberBehavior.Pause,
+      },
+    });
+
+    let ytdlstream = await ytdl(videourl, { highWaterMark: 1 << 25, filter: 'audioonly', });
+    const audio = createAudioResource(ytdlstream, { inputType: StreamType.Opus });
+
+    player.play(audio);
+
+    const subscription = connection.subscribe(player);
+
+    player.on(AudioPlayerStatus.Playing, () => {
       //            message.channel.send(`You are now playing \`${song.title}\``);
 
+      // Prevent the playing message from being posted twice due to a glitch caused by ytdl
+      const lm = message.channel.lastMessage;
+      if (lm!.author.id === message.client.user?.id && lm!.embeds[0].title?.includes("You are now playing:")) return;
+
       message.channel.send({
-        embed: {
+        embeds: [{
           color: "ffffff",
           title: `You are now playing: \`${song.title}\``,
           thumbnail: {
@@ -68,16 +88,19 @@ module.exports = {
               value: videopu.ago,
             },
           ],
-        },
-      });
+        }],
+      } as unknown as MessagePayload);
 
-      ytdispatcher.on("error", console.error);
+      player.on("error", console.error);
     });
 
-    ytdispatcher.on("finish", () => {
+    player.on(AudioPlayerStatus.Idle, () => {
+      if (!audio.ended) return;
       message.channel.send(`The song has been ended!`);
-      message.guild!.me!.voice.channel!.leave();
-      ytdispatcher.on("error", console.error);
+      subscription!.unsubscribe();
+      connection.disconnect();
+      connection.destroy();
+      player.on("error", console.error);
     });
   },
 };

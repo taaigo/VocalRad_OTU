@@ -1,4 +1,5 @@
-import { Message } from "discord.js";
+import { AudioPlayerStatus, createAudioPlayer, createAudioResource, joinVoiceChannel, NoSubscriberBehavior, StreamType } from "@discordjs/voice";
+import { Message } from "../../types/discord.js";
 
 module.exports = {
   name: "radio",
@@ -38,19 +39,32 @@ module.exports = {
 
       if (radioindex == -1) return message.channel.send('error desu');
 
-      const connection = await message.member!.voice.channel.join(); // makes the bot join the vc
-      connection.voice!.setSelfDeaf(true);
+      const connection = joinVoiceChannel({
+        channelId: message.member!.voice.channel.id,
+        guildId: message.member!.voice.channel.guild.id,
+        adapterCreator: message.member!.voice.channel.guild.voiceAdapterCreator,
+      });
 
-      const dispatcher = connection.play(choiceUrl); // plays the radiostation
+      const player = createAudioPlayer({
+        behaviors: {
+          noSubscriber: NoSubscriberBehavior.Pause,
+        },
+      });
 
-      dispatcher.on("start", () => {
+      const audio = createAudioResource(choiceUrl, { inputType: StreamType.Opus });
+
+      player.play(audio); // plays the radiostation
+
+      connection.subscribe(player);
+
+      player.on(AudioPlayerStatus.Playing, () => {
         message.channel.send(
           `You are now listening to ${stationtitles[radioindex]}`
         ); //sends this message when the bot starts playing music
-        dispatcher.on("error", console.error);
+        player.on("error", console.error);
       });
 
-      dispatcher.on("error", () => {
+      player.on("error", () => {
         console.error;
         message.channel.send(
           "There was an error trying to play: " + argsString

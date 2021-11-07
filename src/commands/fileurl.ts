@@ -1,4 +1,5 @@
-import { Message } from "discord.js";
+import { AudioPlayerStatus, createAudioPlayer, createAudioResource, joinVoiceChannel, NoSubscriberBehavior, StreamType } from "@discordjs/voice";
+import { Message } from "../../types/discord.js";
 
 module.exports = {
     name: "fileurl",
@@ -28,19 +29,34 @@ module.exports = {
             return;
         }
 
-        const connection = await message.member!.voice.channel.join();
-        connection.voice!.setSelfDeaf(true);
-        const filedispatcher = connection.play(fileUrl);
+        const connection = joinVoiceChannel({
+          channelId: message.member!.voice.channel.id,
+          guildId: message.member!.voice.channel.guild.id,
+          adapterCreator: message.member!.voice.channel.guild.voiceAdapterCreator,
+        });
+  
+        const player = createAudioPlayer({
+          behaviors: {
+            noSubscriber: NoSubscriberBehavior.Pause,
+          },
+        });
+  
+        const audio = createAudioResource(fileUrl, { inputType: StreamType.Opus });
+        
+        player.play(audio); // plays the file
 
-        filedispatcher.on('start', () => {
+        connection.subscribe(player);
+
+        player.on(AudioPlayerStatus.Playing, () => {
           message.channel.send('Your file is now being played');
-            filedispatcher.on('error', console.error);
+          player.on('error', console.error);
         });
 
-        filedispatcher.on('finish', () => {
+        player.on(AudioPlayerStatus.Idle, () => {
           message.channel.send('The song has been ended!');
-          message.guild!.me!.voice.channel!.leave();
-            filedispatcher.on('error', console.error);
+          connection.disconnect();
+          connection.destroy();
+          player.on('error', console.error);
         });
     },
 };

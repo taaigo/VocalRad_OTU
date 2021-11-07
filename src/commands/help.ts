@@ -1,4 +1,4 @@
-import { Message } from "discord.js";
+import { Message, MessagePayload } from "../../types/discord.js";
 
 module.exports = {
   name: "help",
@@ -8,7 +8,7 @@ module.exports = {
     let prefix = process.env.prefix as string;
 
     message.channel.send({
-      embed: {
+      embeds: [{
         color: "ffffff",
         author: {
           //icon_url: client.user.displayAvatarURL(),
@@ -53,7 +53,7 @@ module.exports = {
           icon_url: message.client.user!.displayAvatarURL(),
           text: "Logo by FireyJS\nCreated by Maru and Taigo",
         },
-      },
-    });
+      }]
+    } as unknown as MessagePayload);
   },
 };

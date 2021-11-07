@@ -1,4 +1,4 @@
-import { Message } from "discord.js";
+import { Message, MessagePayload } from "../../types/discord.js";
 
 module.exports = {
   name: "stations",
@@ -11,7 +11,7 @@ module.exports = {
     let stationnames = radstats.names;
 
     message.channel.send({
-      embed: {
+      embeds: [{
         author: {
           //icon_url: client.user.displayAvatarURL(),
           name: message.client.user!.username + "'s Available stations",
@@ -49,7 +49,7 @@ module.exports = {
           //icon_url: client.user.displayAvatarURL(),
           text: "Logo by FireyJS\nCreated by Maru and Taigo",
         },
-      },
-    });
+      }],
+    } as unknown as MessagePayload);
   },
 };

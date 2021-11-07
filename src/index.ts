@@ -1,7 +1,9 @@
-import * as Discord from "discord.js";
+import { Message, Client } from "../types/discord.js";
+const { Client, Collection, Intents } = require("discord.js");
+
 import * as fs from "fs";
-const client = new Discord.Client();
-client.commands = new Discord.Collection();
+const client: Client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS] });
+client.commands = new Collection();
 require('dotenv').config();
 
 client.on("ready", () => {
@@ -17,7 +19,7 @@ for (const file of commandFiles) {
   client.commands.set(command.name, command);
 }
 
-client.on("message", async (message: Discord.Message) => {
+client.on("messageCreate", async (message: Message) => {
   let prefix = process.env.prefix as string;
 
   if (!message.guild || message.author.bot || !message.content.startsWith(prefix)) return;
