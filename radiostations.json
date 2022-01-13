@@ -1,0 +1,28 @@
+{
+  "urls": [
+    "https://onlineradiobox.com/json/jp/vocaloidradio/play?platform=web",
+    "https://streamingv2.shoutcast.com/Manganimema",
+    "https://onlineradiobox.com/json/jp/bittersweetmusicjp/play?platform=web",
+    "https://kathy.torontocast.com:3560/;",
+    "http://igor.torontocast.com:1710/;",
+    "https://mgugaklive.nowcdn.co.kr/gugakradio/gugakradio.stream/playlist.m3u8"
+  ],
+
+  "names": [
+    "vocaloidradio",
+    "mangaanimeradio",
+    "bittersweetmusicjp",
+    "jpop-powerplay",
+    "jpopsakuranatsukashii",
+    "gugak-FM"
+  ],
+
+  "titles": [
+    "Vocaloid Radio",
+    "MangaAnimeRadio",
+    "Bittersweet music JP",
+    "Dreamradio Jpop PowerPlay",
+    "J-Pop Sakura 懐かしい",
+    "gugak-FM(국악방송)"
+  ]
+}
