@@ -9,7 +9,6 @@ module.exports = {
       embed: {
         color: "ffffff",
         author: {
-          //icon_url: client.user.displayAvatarURL(),
           name: message.client.user.username + "'s Help guide",
         },
         title: "Commands of " + message.client.user.username,

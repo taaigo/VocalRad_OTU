@@ -43,8 +43,6 @@ module.exports = {
     const ytdispatcher = connection.play(ytdl(videourl));
 
     ytdispatcher.on("start", () => {
-      //            message.channel.send(`You are now playing \`${song.title}\``);
-
       message.channel.send({
         embed: {
           color: "ffffff",

@@ -9,7 +9,6 @@ module.exports = {
     message.channel.send({
       embed: {
         author: {
-          //icon_url: client.user.displayAvatarURL(),
           name: client.user.username + "'s Available stations",
         },
         color: "ffffff",
@@ -42,7 +41,6 @@ module.exports = {
         ],
         timestamp: new Date(),
         footer: {
-          //icon_url: client.user.displayAvatarURL(),
           text: "Logo by FireyJS\nCreated by Maru and Taigo",
         },
       },

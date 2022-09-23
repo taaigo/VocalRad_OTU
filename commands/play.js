@@ -49,8 +49,6 @@ module.exports = {
           const searchdispatcher = connection.play(ytdl(searchUrl));
 
           searchdispatcher.on('start', () => {
-//            message.channel.send(`You are now playing \`${searchTitle}\`\nDuration: \`${video[0].timestamp}\``);
-
 
               message.channel.send({ embed: {
                 color: "ffffff",
