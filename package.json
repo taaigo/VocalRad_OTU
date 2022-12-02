@@ -1,0 +1,43 @@
+{
+  "name": "vocalrad",
+  "version": "0.2.0",
+  "main": "index.js",
+  "engines": {
+    "node": "16.x",
+    "npm": "7.x"
+  },
+  "scripts": {
+    "clean": "rimraf dist/",
+    "copy": "copyfiles -u 1 src/radiostations.json src/Procfile src/.env dist/",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run clean && tsc && npm run copy && cd dist && node index.js"
+  },
+  "author": "Maru (https://github.com/LosWheatleynDew)",
+  "contributors": [
+    "Taigo (https://github.com/taigochan)",
+    "Marie <marie@kaifa.ch> (https://marie.omg.lol)"
+  ],
+  "license": "ISC",
+  "dependencies": {
+    "@discordjs/opus": "^0.9.0",
+    "@discordjs/rest": "^0.1.0-canary.0",
+    "@discordjs/voice": "^0.7.2",
+    "discord-api-types": "^0.24.0",
+    "discord.js": "^13.3.1",
+    "dotenv": "^10.0.0",
+    "libsodium-wrappers": "^0.7.9",
+    "yt-search": "^2.10.1",
+    "ytdl-core-discord": "^1.3.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "project-radio-san"
+  },
+  "description": "",
+  "devDependencies": {
+    "@types/node": "^16.11.6",
+    "copyfiles": "^2.4.1",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.4.4"
+  }
+}
